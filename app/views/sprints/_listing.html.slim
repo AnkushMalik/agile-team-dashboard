@@ -9,8 +9,8 @@
       - smart_listing.collection.each do |sprint|
         tr
           td.center.aligned = sprint.number
-          td.center.aligned = sprint.start_date.strftime("%d-%m-%Y")
-          td.center.aligned = sprint.end_date.strftime("%d-%m-%Y")
+          td.center.aligned = "#{sprint.start_date.strftime("%d-%m-%Y")}"
+          td.center.aligned = "#{sprint.end_date.strftime("%d-%m-%Y")}"
           td.right.aligned
             - if sprint.unstarted_sprint?
               = link_to sprint_start_path(sprint) do

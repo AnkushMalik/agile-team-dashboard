@@ -3,12 +3,47 @@
     .ui.segment
       h1 Active meetings
       .ui.divided.list
-        = smart_listing_render(:active_meetings)
+        - @active_meetings.each do |meeting|
+          .item
+            .content
+              .header
+                = "#{meeting.start_date.strftime("%d-%m-%Y")} #{meeting.event_type} at \
+                   #{meeting.start_date.strftime("%H:%M")} until #{meeting.end_date.strftime("%H:%M")} \
+                   - #{meeting.name} in #{meeting.location}"
+                span.action.right.floated
+                  = link_to edit_meeting_path(meeting) do
+                    i.write.icon
+                  = link_to meeting_path(meeting), method: :delete do
+                    i.remove.icon
     .ui.segment
       h1 Finished meetings
       .ui.divided.list
-        = smart_listing_render(:finished_meetings)
+        - @finished_meetings.each do |meeting|
+          .item
+            .content
+              .header
+                = "#{meeting.start_date.strftime("%d-%m-%Y")} #{meeting.event_type} at \
+                   #{meeting.start_date.strftime("%H:%M")} until #{meeting.end_date.strftime("%H:%M")} \
+                   - #{meeting.name} in #{meeting.location}"
+                span.action.right.floated
+                  = link_to edit_meeting_path(meeting) do
+                    i.write.icon
+                  = link_to meeting_path(meeting), method: :delete do
+                    i.remove.icon
 
   .eight.wide.column
     .ui.six.wide.column.segment
-      = render partial: 'form'
+      = simple_form_for(@meeting, html: { class: 'ui form'}) do |f|
+        .three.fields
+          = f.input :sprint_id, collection: Sprint.all.map { |x| [x.number, x.id]}, input_html: { class: 'dropdown' }
+          = f.input :name, as: :string
+          = f.input :event_type, collection: Meeting::TYPES, input_html: { class: 'dropdown' }
+        .three.fields
+          = f.input :location, as: :string
+          = f.input :start_date, as: :string, wrapper_html: { class: 'calendar' }
+          = f.input :end_date, as: :string, wrapper_html: { class: 'calendar' }
+        = f.input :description, input_html: { rows: 3, cols: 40 }
+        .ui.right.floated.buttons
+          = link_to 'Cancel', meetings_path, class: 'ui button'
+          .or
+          = f.submit 'Create', class: 'ui green button'

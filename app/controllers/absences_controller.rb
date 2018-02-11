@@ -1,11 +1,9 @@
 # Absence controller
 class AbsencesController < ApplicationController
   before_action :set_absence, only: %i[show edit update destroy]
-  include SmartListing::Helper::ControllerExtensions
-  helper  SmartListing::Helper
 
   def index
-    smart_listing_create :absences, current_user.absences, partial: 'absences/listing'
+    @absences = current_user.absences
     @absence = Absence.new
   end
 

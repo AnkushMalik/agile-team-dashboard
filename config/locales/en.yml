@@ -20,7 +20,4 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  helpers:
-    submit:
-      create: "Create"
-      edit: "Update"
+  hello: "Hello world"

@@ -46,6 +46,13 @@ section {
     font-size: 1.3em;
     padding: 0.2em;
   }
+
+  .ui.divided.list {
+    .item {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
+  }
 }
 
 footer {

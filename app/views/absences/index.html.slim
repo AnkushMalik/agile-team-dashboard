@@ -2,8 +2,31 @@
   .eight.wide.column
     .ui.segment
       h1 Absences
-      = smart_listing_render(:absences)
+      .ui.relaxed.divided.list
+        - @absences.each do |absence|
+          .item
+            .header
+              = "#{absence.start_date.strftime("%d-%m-%Y %H:%M")} until #{absence.end_date.strftime("%d-%m-%Y %H:%M")}"
+              span.action.right.floated
+                = link_to edit_absence_path(absence) do
+                  i.write.icon
+                = link_to absence_path(absence), method: :delete do
+                  i.remove.icon
 
   .eight.wide.column
     .ui.segment
-      = render partial: 'form'
+      = simple_form_for(@absence, html: { class: 'ui form '}) do |f|
+        = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
+        .two.fields
+          = f.input :location, as: :string
+          = f.input :event_type, collection: Absence::TYPES, input_html: { class: 'dropdown' }
+        .two.fields
+          = f.input :start_date, as: :string,
+                                 wrapper_html: { class: 'calendar_range_start' }
+          = f.input :end_date, as: :string,
+                               wrapper_html: { class: 'calendar_range_end' }
+        = f.input :description, input_html: { rows: 3, cols: 40 }
+        .ui.right.floated.buttons
+          = link_to 'Cancel', absences_path, class: 'ui button'
+          .or
+          = f.submit 'Create', class: 'ui green button'

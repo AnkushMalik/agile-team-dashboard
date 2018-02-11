@@ -1,15 +1,17 @@
-= simple_form_for(@absence, html: { class: 'ui form '}) do |f|
-  = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
-  .two.fields
-    = f.input :location, as: :string
-    = f.input :event_type, collection: Absence::TYPES, input_html: { class: 'dropdown' }
-  .two.fields
-    = f.input :start_date, as: :string,
-                           wrapper_html: { class: 'calendar_range_start' }
-    = f.input :end_date, as: :string,
-                         wrapper_html: { class: 'calendar_range_end' }
-  = f.input :description, input_html: { rows: 3, cols: 40 }
-  .ui.right.floated.buttons
-    = link_to 'Cancel', absences_path, class: 'ui button'
-    .or
-    = f.submit class: 'ui green button'
+.ui.twelve.column.centered.grid
+  .ui.six.wide.column.segment.login
+    = simple_form_for(@absence, html: { class: 'ui form '}) do |f|
+      = f.input :user_id, as: :hidden, input_html: { value: current_user.id }
+      .two.fields
+        = f.input :location, as: :string
+        = f.input :event_type, collection: Absence::TYPES
+      .two.fields
+        = f.input :start_date, as: :string,
+                               wrapper_html: { class: 'calendar' }
+        = f.input :end_date, as: :string,
+                             wrapper_html: { class: 'calendar' }
+      = f.input :description, input_html: { rows: 3, cols: 40 }
+      .ui.right.floated.buttons
+        = link_to 'Cancel', absences_path, class: 'ui button'
+        .or
+        = f.submit 'Update', class: 'ui green button'
